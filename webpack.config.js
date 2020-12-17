@@ -13,7 +13,7 @@ module.exports={
                 test: /\.m?js$/,
                 exclude: /node_modules/,
                 use:{
-                    loader:'babel-loader',
+                    loader:'babel-loaders',
                     options:{
                         presets: [
                             ['@babel/preset-env', { targets: "defaults" }]
