@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 html(lang="en")
     head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        link(href="/css/app.css", rel="stylesheet")
-        link(href="/css/normalize.css", rel="stylesheet")
-
-        
-        title=nombrePagina
+      include partials/header
     body
 
         header.barra
             h1 UpTask - Administrador de Proyectos
-            a(href="#") Cerrar Sesión
+            a(href="/cerrar-sesion") Cerrar Sesión
 
         main.contenedor
             aside.contenedor-proyectos
