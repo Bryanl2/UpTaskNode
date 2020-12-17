@@ -1,8 +1,11 @@
 const slug = require('slug');
 const Proyectos=require('../models/Proyectos');
+const Tareas=require('../models/Tareas');
 
 exports.proyectosHome=async(req,res)=>{
-    const proyectos= await Proyectos.findAll();
+    //const usuarioId=res.locals.usuario.id;
+    const usuarioId=res.locals.usuario.id;
+    const proyectos= await Proyectos.findAll({where:{usuarioId}});
     res.render("index",{
         nombrePagina: 'Proyectos',
         proyectos
@@ -11,7 +14,8 @@ exports.proyectosHome=async(req,res)=>{
 
 exports.formularioProyecto=  async (req,res)=>{
     
-    const proyectos= await Proyectos.findAll();
+    const usuarioId=res.locals.usuario.id;
+    const proyectos= await Proyectos.findAll({where:{usuarioId}});
 
 
     res.render('nuevoProyecto',{
@@ -23,7 +27,8 @@ exports.formularioProyecto=  async (req,res)=>{
 
 exports.nuevoProyecto= async (req,res)=>{
 
-    const proyectos= await Proyectos.findAll();
+    const usuarioId=res.locals.usuario.id;
+    const proyectos= await Proyectos.findAll({where:{usuarioId}});
 
     //Enviar a la consola lo que el usuario escriba
 
@@ -50,8 +55,8 @@ exports.nuevoProyecto= async (req,res)=>{
         //resultado.then(()=>console.log("Insertado correctamente"))
         //.catch(error=>console.log(error));
 
-        
-        const proyecto= await Proyectos.create({nombre})
+        const usuarioId=res.locals.usuario.id;
+        const proyecto= await Proyectos.create({nombre,usuarioId})
         res.redirect('/');
 
         
@@ -59,13 +64,29 @@ exports.nuevoProyecto= async (req,res)=>{
 }
 
 exports.proyectosPorUrl=async (req,res,next)=>{
-    const proyectos= await Proyectos.findAll();
+    const usuarioId=res.locals.usuario.id;
+    const proyectos= await Proyectos.findAll({where:{usuarioId}});
+    
 
     const proyecto = await Proyectos.findOne({
         where:{
             url: req.params.url,
+            usuarioId
         }
     })
+
+    //Consultar tareas del Proyecto actual
+
+    const tareas= await Tareas.findAll({
+        where:{
+            proyectoId: proyecto.id
+        },
+        //include:[
+          //  {model:Proyectos}
+        //]
+    });
+
+    console.log(tareas);
 
     if(!proyecto)return next();
     
@@ -75,7 +96,8 @@ exports.proyectosPorUrl=async (req,res,next)=>{
     res.render('tareas',{
         nombrePagina:"Tareas del Proyecto",
         proyecto,
-        proyectos
+        proyectos,
+        tareas
     })
     
 }
@@ -83,11 +105,14 @@ exports.proyectosPorUrl=async (req,res,next)=>{
 
 exports.formularioEditar= async (req,res)=>{
 
-    const proyectosPromise=  Proyectos.findAll();
+    const usuarioId=res.locals.usuario.id;
+    const proyectosPromise=  Proyectos.findAll({where:{usuarioId}});
+
+    
 
     const proyectoPromise=  Proyectos.findOne({
         where:{
-            id:req.params.id
+            id:req.params.id,usuarioId
         }
     });
 
@@ -102,7 +127,8 @@ exports.formularioEditar= async (req,res)=>{
 
 exports.actualizarProyecto= async (req,res)=>{
 
-    const proyectos= await Proyectos.findAll();
+    const usuarioId=res.locals.usuario.id;
+    const proyectos= await Proyectos.findAll({where:{usuarioId}});
 
     //Enviar a la consola lo que el usuario escriba
 

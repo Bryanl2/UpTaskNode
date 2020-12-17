@@ -4,19 +4,29 @@
   "description": "Uptask con Node Y MVC",
   "main": "index.js",
   "scripts": {
+    "desarrollo":"concurrently \"npm run watch\" \"npm run dev \"",
     "dev": "nodemon ./index.js",
     "watch": "webpack --watch --mode development",
-    "start": "concurrently \"npm run watch\" \"npm run dev \""
-   
+    "start": "node ./index.js"
   },
   "author": "Bryan Loaiza Rodríguez",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.0",
+    "bcrypt-nodejs": "0.0.3",
     "concurrently": "^5.3.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "express-validator": "^6.8.0",
+    "html-to-text": "^6.0.0",
+    "juice": "^7.0.0",
     "mysql2": "^2.2.5",
+    "nodemailer": "^6.4.17",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "pug": "^3.0.0",
     "sequelize": "^6.3.5",
     "shortid": "^2.2.16",
